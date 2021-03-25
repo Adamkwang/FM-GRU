@@ -162,49 +162,9 @@ def train():
             #metrics1 += Metrics(np.array(HA), z)
             #print(np.array(HA)[1,1])
         print(f'Epoch-{epoch}: MAE={metrics[0] / len(testLoader)};MSE={metrics[1] / len(testLoader)};RMSE={metrics[2] / len(testLoader)};NRMSE={metrics[3] / len(testLoader)}')
-        #print(f'Epoch-{epoch}: MAE={metrics1[0] / len(testLoader)};MSE={metrics1[1] / len(testLoader)};RMSE={metrics1[2] / len(testLoader)};NRMSE={metrics1[3] / len(testLoader)}')
 
 train()
 time_end = time.time()
 print('time consumption:',time_end-time_start)
-# def loss_func(mu,sigma,zhat):
-#     return - t.mean(t.distributions.normal.Normal(mu, sigma).log_prob(zhat))
 
-# def quantile(mu, sigma, q, sample = 100):
-#     dist = t.distributions.normal.Normal(mu, sigma).sample((sample,))
-#     return np.quantile(dist, q, axis=0)
-
-# def train2():
-#     for epoch in range(params['epochs']):
-#         model.train()
-#         for hisx, hisz, futx, z in tqdm(trainLoader):
-#             optim.zero_grad()
-#             _ , _ , (mu, sigma), _, = model.forward(hisx, hisz, futx, z)
-#             zhat = quantile(mu, sigma, 0.5)
-#             low = quantile(mu, sigma, 0.1)
-#             high = quantile(mu, sigma, 0.9)
-#             loss = loss_func(mu,sigma,z)
-#            # print(loss)
-#             loss.backward()
-#             optim.step()
-
-#         metrics = np.zeros((4,))
-#         model.eval()
-#         for hisx, hisz, futx, z in testLoader:
-#             _, _, _, (mu, sigma) = model.forward(hisx, hisz, futx, z)
-#             zhat = quantile(mu, sigma, 0.5)
-#             low = quantile(mu, sigma, 0.1)
-#             high = quantile(mu, sigma, 0.9)
-#             z = z[:, -params['forcast_step']:]
-#             zhat = zhat.reshape(z.shape)
-#             z = z.detach()
-#             hisz = hisz.detach()
-
-#             zhat = scaler.inverse_transform(zhat.squeeze())#*14.95+0.05
-#             zhat = Inverse_maxmin(zhat, ds.min, ds.max)
-#             z = scaler.inverse_transform(z.squeeze())#*14.95+0.05
-#             Inverse_maxmin(z, ds.min, ds.max)
-#             metrics += Metrics(zhat, z)
-#         print(f'Epoch-{epoch}: MAE={metrics[0] / len(testLoader)};MSE={metrics[1] / len(testLoader)};RMSE={metrics[2] / len(testLoader)};NRMSE={metrics[3] / len(testLoader)}')
-        
 
