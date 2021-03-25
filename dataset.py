@@ -38,22 +38,7 @@ class TimeSeriesDataset(Dataset):
         self.label = rawdata.fillna(method = 'ffill', inplace=False)           
         self.label = self.label.to_numpy().astype('float32')
         self.label = self.label[:, 4]
-        self.label,self.zmin,self.zmax = self.minmaxscale(self.label.reshape(-1,1))
-
-
-        
-    # 2.不带0预测（全数据补足） 
-        # target = rawdata.fillna(method = 'ffill', inplace=False)   
-        # target = target.to_numpy().astype('float32')
-        # target = self.minmaxscale(target)
-
-        # features = rawdata.fillna(method = 'ffill', inplace=False)  
-        # features = features.to_numpy().astype('float32')
-        # features = self.minmaxscale(features)
-
-        # self.featuress = rawdata[:, 0:4]
-        # self.label = testdata[:, 4]
-        
+        self.label,self.zmin,self.zmax = self.minmaxscale(self.label.reshape(-1,1))      
 
         self.features, _, _ = self.minmaxscale(self.features)
         self.scaler = scaler
@@ -64,10 +49,7 @@ class TimeSeriesDataset(Dataset):
         # features
         # [index + 1, t0] [t0 + 1, T]
         # lag input
-        # [index, t0 - 1]
-        
-        #rowfea = self.featuress[index]
-        
+        # [index, t0 - 1]        
         
         # Step 1: lagged size adjust
         index += 1
@@ -88,11 +70,6 @@ class TimeSeriesDataset(Dataset):
         # Step 5: targets
         z = self.label[index: index + self.encode_step + self.forcast_step]
 
-        # ha = np.mean(self.label[0:index + self.encode_step])
-        # HA = []
-        # for i in range(12):
-        #         HA.append(np.float32(ha))
-        # HA = np.array(HA)
         return hisx, hisz, futx, z#, HA
 
     def __len__(self):
